@@ -18,7 +18,27 @@
 
 ​	要考虑分片大小、集群的大小、堆内存大小、重负载
 
+​	如何使得主分片和副本分别分布在某一个固定的节点？
 
+​	（1）首先区分节点，这里用node.attr.rack_id来区分存放副本的节点
+
+​		![image-20220705190132705](C:\Users\tracy\AppData\Roaming\Typora\typora-user-images\image-20220705190132705.png)
+
+​	（2）主节点感知路由设置副本存放的位置
+
+​	`	PUT _cluster/settings
+​	{
+​	  "transient": {
+​	    "cluster.routing.allocation.awareness.attributes": "rack_id"
+​	  }
+​	}`
+
+​	这里设置的时候出现了UNSIGN的情况，这里可以根据`GET _cluster/allocation/explain`获取未分配的原因
+
+1. 掩饰等待
+2. 副本和主分片不能同时
+
+​	我这次是删除了副本，然后再重新设置副本的个数就ok了
 
 
 

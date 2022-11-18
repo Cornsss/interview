@@ -267,7 +267,6 @@ log表使用的csv引擎
 
 1. binlog作用
 2. binlog开启
-3. binlog和redolog的区别
 4. 事务的隔离级别
 5. 查看binlog：mysqlbinlog工具查看
 
@@ -289,7 +288,16 @@ Variable_name: Binlog_cache_use
 
 ```
 
+## 3.3 redolog
 
+1. 定义：mysql在datadir下会有两个默认的表空间文件：ib_logfile0、ib_logfile1,官方叫这两个文件是InnoDB存储引擎的日志文件，他其实就是redolog
+2. binlog和redolog的区别（redolog的写入是按照512bytes，即一个扇区的缓存大小写入的，是不需要doublewrite的）
+
+​	（1）binlog是记录数据库的开启、运行状态和关闭的日志
+
+​	（2）binlog记录的是一个事务的逻辑操作日志，而redolog记录的是物理页发生更改的日志
+
+​	（3）写入的情景是不同的，在事务提交前会不断的产生redolog，但只会产生一次binlog
 
 # Chapter04 表
 
